@@ -36,7 +36,8 @@ class CreateRoomBookingSerializer(serializers.ModelSerializer):
             check_in__lt=data["check_out"],
             check_out__gt=data["check_in"],
         ).exists():
-            raise serializers.ValidationError("Those dates are already taken.")
+            raise serializers.ValidationError(
+                "Those or some of those dates are already taken.")
         return data
 
 
