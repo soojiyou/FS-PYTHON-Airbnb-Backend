@@ -17,3 +17,11 @@ class Review(CommonModel):
 
     def __str__(self) -> str:
         return f"{self.user} / {self.rating}⭐"
+
+    def owner_or_hostname(self):
+        if self.room:
+            return self.room.owner.username
+        elif self.experience:
+            return self.experience.owner.username
+        else:
+            return None

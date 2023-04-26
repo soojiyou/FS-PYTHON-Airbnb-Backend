@@ -31,6 +31,9 @@ class Room(CommonModel):
     def total_amenities(self):
         return self.amenities.count()
 
+    def total_reviews(self):
+        return self.reviews.count()
+
     def rating(self):
         # review가 room을 poining 하고 있기때문(related_name)
         count = self.reviews.count()
