@@ -32,6 +32,11 @@ class CreateRoomBookingSerializer(serializers.ModelSerializer):
         if data["check_out"] <= data["check_in"]:
             raise serializers.ValidationError(
                 "Check_out date should be later than check_in date.")
+        if Booking.objects.filter(
+            check_in__lt=data["check_out"],
+            check_out__gt=data["check_in"],
+        ).exists():
+            raise serializers.ValidationError("Those dates are already taken.")
         return data
 
 
