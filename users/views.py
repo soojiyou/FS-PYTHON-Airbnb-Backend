@@ -30,6 +30,9 @@ class Me(APIView):
 
 class Users(APIView):
     def post(self, request):
+        username = request.data.get("username")
+        if username == "me":
+            raise ("'me' cannot be used for username!")
         password = request.data.get("password")
         if not password:
             raise ParseError("Please fill password field.")
@@ -46,3 +49,9 @@ class Users(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
+
+
+class PublicUser(APIView):
+
+    def get(self, request, username):
+        pass
