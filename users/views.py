@@ -1,4 +1,5 @@
 import re
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -35,8 +36,8 @@ class MyProfile(APIView):
 class Users(APIView):
     def post(self, request):
         username = request.data.get("username")
-        if username == "myprofile":
-            raise ("'myprofile' cannot be used for username!")
+        if username == "my-profile" or "user-profile":
+            raise ("'my-profile' or 'user-profile' cannot be used for username!")
         password = request.data.get("password")
         if not password:
             raise ParseError("Please fill password field.")
@@ -112,3 +113,28 @@ class ChangePassword(APIView):
 
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class LogIn(APIView):
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        if not username and password:
+            raise ParseError("Please provide both username and password.")
+        user = authenticate(request, username=username, password=password,)
+        if user:
+            # django let user to login by creating session on the backend, and give cookie to user
+            login(request, user)
+            return Response({"ok": "Welcome!"})
+        else:
+            return Response({"error": "Wrong Password"})
+
+
+class LogOut(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        logout(request)
+        return Response({"ok": "bye!"})

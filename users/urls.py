@@ -7,10 +7,12 @@ from rooms import views as room_views
 # 지금은 'myprofile'를 사용 못하도록 validate 함
 urlpatterns = [
     path("", views.Users.as_view()),
-    path("myprofile", views.MyProfile.as_view()),
-    path("myprofile/change-password", views.ChangePassword.as_view()),
-    path("@<str:username>", views.PublicUser.as_view()),
-    path("@<str:username>/rooms", views.HostRoom.as_view()),
-    path("@<str:username>/reviewsbyuser", views.UserReview.as_view()),
-    # path("<str:username>/reviewsforuser", views.HostReview.as_view()),
+    path("my-profile", views.MyProfile.as_view()),
+    path("my-profile/change-password", views.ChangePassword.as_view()),
+    path("log-in", views.LogIn.as_view()),
+    path("log-out", views.LogOut.as_view()),
+    path("user-profile/<str:username>", views.PublicUser.as_view()),
+    path("user-profile/<str:username>/rooms", views.HostRoom.as_view()),
+    path("user-profile/<str:username>/reviewsbyuser", views.UserReview.as_view()),
+    # path("user-profile/<str:username>/reviewsforuser", views.HostReview.as_view()),
 ]
