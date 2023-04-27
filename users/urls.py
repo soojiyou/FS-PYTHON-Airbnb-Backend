@@ -8,9 +8,9 @@ from rooms import views as room_views
 urlpatterns = [
     path("", views.Users.as_view()),
     path("myprofile", views.MyProfile.as_view()),
-    path("<str:username>", views.PublicUser.as_view()),
-
-    path("<str:username>/rooms", views.HostRoom.as_view()),
-    path("<str:username>/reviewsbyuser", views.UserReview.as_view()),
+    path("myprofile/change-password", views.ChangePassword.as_view()),
+    path("@<str:username>", views.PublicUser.as_view()),
+    path("@<str:username>/rooms", views.HostRoom.as_view()),
+    path("@<str:username>/reviewsbyuser", views.UserReview.as_view()),
     # path("<str:username>/reviewsforuser", views.HostReview.as_view()),
 ]
