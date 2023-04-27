@@ -41,6 +41,23 @@ class CreateRoomBookingSerializer(serializers.ModelSerializer):
         return data
 
 
+class CreateExperienceBookingSerializer(serializers.ModelSerializer):
+    experience_time = serializers.DateTimeField()
+
+    class Meta:
+        model = Booking
+        fields = ("experience_time", "guests")
+
+    # 추후에 experience 정원 setting해서 초과되면 validate 하는 거 추가 가능
+    def validate_experience_time(self, value):
+        experience = self.context["experience"]
+        if value.time() != experience.start:
+            raise serializers.ValidationError(
+                "Experience time have to be same with the experience start of time"
+            )
+        return value
+
+
 class PublicBookingSerializer(serializers.ModelSerializer):
 
     class Meta:
