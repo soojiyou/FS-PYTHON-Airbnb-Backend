@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
 
+env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!hg*2wl&l5e3&xh5#ujq*yum8w!!pk4ubir^x!$1uf198p8qnf'
+# environ.Env.read_env("BASE_DIR/.env") => 이렇게 하면 실수 가능성 있음. 아래방식 추천
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,7 +34,11 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-THIRD_PARTY_APPS = ["rest_framework"]
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "rest_framework.authtoken",
+    "strawberry.django",
+]
 
 CUSTOM_APPS = [
     "common.apps.CommonConfig",
@@ -148,3 +157,11 @@ MEDIA_ROOT = "uploads"
 MEDIA_URL = "user-uploads/"
 
 PAGE_SIZE = 3
+
+# "rest_framework.authentication.SessionAuthentication"(default)
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "config.authentication.JWTAuthentication",]
+}

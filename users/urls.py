@@ -1,4 +1,5 @@
 from django.urls import path
+from rest_framework.authtoken.views import obtain_auth_token
 from . import views
 from rooms import views as room_views
 
@@ -11,6 +12,8 @@ urlpatterns = [
     path("my-profile/change-password", views.ChangePassword.as_view()),
     path("log-in", views.LogIn.as_view()),
     path("log-out", views.LogOut.as_view()),
+    path("token-login", obtain_auth_token),
+    path("jwt-login", views.JWTLogIn.as_view()),
     path("user-profile/<str:username>", views.PublicUser.as_view()),
     path("user-profile/<str:username>/rooms", views.HostRoom.as_view()),
     path("user-profile/<str:username>/reviewsbyuser", views.UserReview.as_view()),
