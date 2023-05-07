@@ -176,3 +176,5 @@ CORS_ALLOW_CREDENTIALS = True
 
 
 CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
+
+GH_SECRET = env("GH_SECRET")
