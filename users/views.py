@@ -46,7 +46,7 @@ class Users(APIView):
             raise ParseError("Please fill password field.")
         if len(password) < 6 or sum(1 for c in password if c.isupper()) < 2 or not re.search(r'\W', password):
             raise ParseError(
-                "Password should include at least one captal alphabet and one symbol(ex:!,@,#,etc).")
+                "Password should be included at least one captal alphabet and one symbol(ex:!,@,#,etc).")
         serializer = serializers.PrivateUserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
