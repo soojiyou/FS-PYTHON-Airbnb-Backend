@@ -167,6 +167,7 @@ class JWTLogIn(APIView):
             return Response({"error": "wrong password"})
 
 # github login
+# token 관리 하기
 
 
 class GithubLogIn(APIView):
@@ -201,6 +202,53 @@ class GithubLogIn(APIView):
                     email=user_emails[0]['email'],
                     name=user_data.get('name'),
                     avatar=user_data.get('avatar_url'),
+                )
+                user.set_unusable_password()
+                user.save()
+                login(request, user)
+                return Response(status=status.HTTP_200_OK)
+        except Exception:
+            return Response(status=status.HTTP_308_PERMANENT_REDIRECT)
+
+
+class KakaoLogIn(APIView):
+
+    def post(self, request):
+        try:
+            code = request.data.get('code')
+            access_token = requests.post("https://kauth.kakao.com/oauth/token",
+                                         headers={
+                                             "Content-Type": "application/x-www-form-urlencoded"},
+                                         data={
+                                             "grant_type": "authorization_code",
+                                             "client_id": "16987ff1f40015fd4478163e1674b17a",
+                                             "redirect_uri": "http://localhost:3000/social/kakao",
+                                             "code": code,
+                                         }
+                                         )
+            access_token = access_token.json().get('access_token')
+            user_data = requests.get("https://kapi.kakao.com/v2/user/me",
+                                     headers={
+                                         "Authorization": f"Bearer {access_token}",
+                                         "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+                                     },
+                                     )
+            user_data = user_data.json()
+
+            kakao_account = user_data.get("kakao_account")
+            profile = kakao_account.get("profile")
+
+            try:
+                user = models.User.objects.get(
+                    email=kakao_account.get('email'))
+                login(request, user)
+                return Response(status=status.HTTP_200_OK)
+            except models.User.DoesNotExist:
+                user = models.User.objects.create(
+                    username=profile.get('nickname'),
+                    email=kakao_account.get('email'),
+                    name=profile.get('nickname'),
+                    avatar=profile.get('profile_image_url'),
                 )
                 user.set_unusable_password()
                 user.save()
