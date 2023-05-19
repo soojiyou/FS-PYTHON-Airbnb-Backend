@@ -29,10 +29,12 @@ class CreateRoomBookingSerializer(serializers.ModelSerializer):
 
     # data안에 "check_in", "check_out", "guests"다 들어있음/ validate()는 모든 속성을 한번에 validate할수있다.
     def validate(self, data):
+        room = self.context.get("room")
         if data["check_out"] <= data["check_in"]:
             raise serializers.ValidationError(
                 "Check_out date should be later than check_in date.")
         if Booking.objects.filter(
+            room=room,
             check_in__lt=data["check_out"],
             check_out__gt=data["check_in"],
         ).exists():
