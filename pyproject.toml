@@ -9,8 +9,7 @@ packages = [{include = "airbnb_clone_backend"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-django = "^4.2"
-pillow = "^9.5.0"
+django = "~4.0"
 djangorestframework = "^3.14.0"
 strawberry-graphql = {extras = ["debug-server"], version = "^0.174.0"}
 strawberry-graphql-django = "^0.9.4"
