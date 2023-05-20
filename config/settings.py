@@ -185,15 +185,16 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
         "config.authentication.JWTAuthentication",]
 }
+if DEBUG:
+    CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
+    CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+else:
+    CORS_ALLOWED_ORIGINS = ["https://fakebnb-frontend.onrender.com"]
+    CSRF_TRUSTED_ORIGINS = ["https://fakebnb-frontend.onrender.com"]
+
 
 CORS_ALLOW_CREDENTIALS = True
-
-
-CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
 GH_SECRET = env("GH_SECRET")
 
