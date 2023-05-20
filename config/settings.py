@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import environ
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 import dj_database_url
 
 env = environ.Env()
@@ -197,3 +199,13 @@ GH_SECRET = env("GH_SECRET")
 
 CF_TOKEN = env("CF_TOKEN")
 CF_ID = env("CF_ID")
+
+if not DEBUG:
+    sentry_sdk.init(
+        dsn="https://f40c695888074e86a17db223b0ba85d4@o4505215721406464.ingest.sentry.io/4505215725273088",
+        integrations=[
+            DjangoIntegration(),
+        ],
+        traces_sample_rate=1.0,
+        send_default_pii=True
+    )
