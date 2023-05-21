@@ -7,6 +7,15 @@ from medias.serializers import PhotoSerializer
 from wishlists.models import Wishlist
 
 
+class TinyRoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = (
+            "name",
+            "price",
+        )
+
+
 class RoomListSerializer(serializers.ModelSerializer):
     rating = serializers.SerializerMethodField()
     is_owner = serializers.SerializerMethodField()
