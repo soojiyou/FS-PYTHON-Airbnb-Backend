@@ -4,7 +4,7 @@ from rest_framework.exceptions import NotFound
 from rest_framework import status
 from .models import Booking
 from rooms.models import Room
-from .serializers import CheckMyBookingSerializer
+from .serializers import CheckMyBookingSerializer, ManageBookingsSerializer
 
 
 class GetMyBookings(APIView):
