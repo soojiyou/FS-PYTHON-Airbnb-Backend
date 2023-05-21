@@ -33,7 +33,8 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = ["localhost",]
+ALLOWED_HOSTS = ["localhost",
+                 "backend.fakebnbdomaintest.xyz",]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 
@@ -190,8 +191,8 @@ if DEBUG:
     CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
 else:
-    CORS_ALLOWED_ORIGINS = ["https://fakebnb-frontend.onrender.com"]
-    CSRF_TRUSTED_ORIGINS = ["https://fakebnb-frontend.onrender.com"]
+    CORS_ALLOWED_ORIGINS = ["https://fakebnbdomaintest.xyz"]
+    CSRF_TRUSTED_ORIGINS = ["https://fakebnbdomaintest.xyz"]
 
 
 CORS_ALLOW_CREDENTIALS = True
