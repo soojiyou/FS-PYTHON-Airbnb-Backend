@@ -202,6 +202,8 @@ CF_TOKEN = env("CF_TOKEN")
 CF_ID = env("CF_ID")
 
 if not DEBUG:
+    SESSION_COOKIE_DOMAIN = ".fakebnbdomaintest.xyz"
+    CSRF_COOKIE_DOMAIN = ".fakebnbdomaintest.xyz"
     sentry_sdk.init(
         dsn="https://f40c695888074e86a17db223b0ba85d4@o4505215721406464.ingest.sentry.io/4505215725273088",
         integrations=[
