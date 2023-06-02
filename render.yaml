@@ -2,13 +2,13 @@ databases:
   - name: fakebnb
     databaseName: fakebnb
     user: fakebnb
-    region: singapore
+    region: oregon
 
 services:
   - type: web
     name: mysfakebnbite
     env: python
-    region: singapore
+    region: oregon
     buildCommand: "./build.sh"
     startCommand: "gunicorn config.wsgi:application"
     envVars:
